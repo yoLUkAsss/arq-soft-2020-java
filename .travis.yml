@@ -1,5 +1,8 @@
 language: java
 
+dist:
+ - xenial
+
 jdk:
  - oraclejdk8
 
