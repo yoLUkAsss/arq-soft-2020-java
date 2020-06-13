@@ -9,6 +9,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.coronavirus.insumos.dto.LoginRequest;
 import com.coronavirus.insumos.modelo.Usuario;
 
@@ -17,6 +19,7 @@ public interface InsumosApi {
 
 	@GET
 	@Path("/isAlive")
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	Response isAlive();
 	
 	@POST

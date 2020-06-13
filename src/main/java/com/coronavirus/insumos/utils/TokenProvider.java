@@ -2,14 +2,17 @@ package com.coronavirus.insumos.utils;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+
 import java.security.Key;
 
 import io.jsonwebtoken.*;
 
 import java.util.Date;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Claims;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TokenProvider {
 	
@@ -30,18 +33,29 @@ public class TokenProvider {
         //uso de la llave privada para crear jwt
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+				.commaSeparatedStringToAuthorityList(rol);
 
         //builder del JWT
         JwtBuilder builder = Jwts.builder().setId("idToken")
                 .setIssuedAt(now)
                 .setSubject(subject)
-                .signWith(signatureAlgorithm, signingKey)
-                .claim("role", rol);
+                //.signWith(signatureAlgorithm, signingKey)
+                .claim("authorities",
+						grantedAuthorities.stream()
+								.map(GrantedAuthority::getAuthority)
+								.collect(Collectors.toList()))
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.signWith(SignatureAlgorithm.HS512, SECRET_KEY.getBytes());
+        
+                // .claim("role", rol);
 
         //seteo expiracion de token.
-            long expMillis = nowMillis + ttlMillis;
-            Date exp = new Date(expMillis);
-            builder.setExpiration(exp);
+         //   long expMillis = nowMillis + ttlMillis;
+          //  Date exp = new Date(expMillis);
+           // builder.setExpiration(exp);
 
         //retorno del bearer.
         return builder.compact();
