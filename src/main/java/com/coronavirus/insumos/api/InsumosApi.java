@@ -19,7 +19,7 @@ public interface InsumosApi {
 
 	@GET
 	@Path("/isAlive")
-	//@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	Response isAlive();
 	
 	@POST
