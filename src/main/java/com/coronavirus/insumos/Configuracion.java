@@ -27,7 +27,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 @EnableWebSecurity
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Configuracion extends WebSecurityConfigurerAdapter {
 
 	@Autowired
