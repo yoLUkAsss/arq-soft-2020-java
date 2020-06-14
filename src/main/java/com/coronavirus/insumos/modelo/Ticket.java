@@ -1,0 +1,70 @@
+package com.coronavirus.insumos.modelo;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import com.coronavirus.insumos.utils.MiLocalDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+
+@Entity
+@JsonIgnoreProperties(value = {"new"})
+public class Ticket extends AbstractPersistable<Long>{
+
+	@JoinColumn(name="cliente")
+	@ManyToOne(fetch = FetchType.EAGER)
+	Usuario cliente;
+	
+	@JoinColumn(name="insumo")
+	@ManyToOne(fetch = FetchType.EAGER)
+	Insumo insumo;
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="estados")
+	Set<EstadoTicket> estados = new HashSet<EstadoTicket>();
+	
+	public Usuario getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Usuario cliente) {
+		this.cliente = cliente;
+	}
+
+	public Insumo getInsumo() {
+		return insumo;
+	}
+
+	public void setInsumo(Insumo insumo) {
+		this.insumo = insumo;
+	}
+	
+	public Ticket(Usuario cliente, Insumo insumo) {
+		this.cliente = cliente;
+		this.insumo = insumo;
+	}
+
+	public Set<EstadoTicket> getEstados() {
+		return estados;
+	}
+
+	public void setEstados(Set<EstadoTicket> estados) {
+		this.estados = estados;
+	}
+	
+	public void setEstado(EstadoTicket estado) {
+		this.estados.add(estado);
+	}
+	
+}

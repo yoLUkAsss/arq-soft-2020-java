@@ -1,17 +1,21 @@
 package com.coronavirus.insumos.api;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.coronavirus.insumos.dto.CrearTicketDTO;
 import com.coronavirus.insumos.dto.LoginRequest;
+import com.coronavirus.insumos.modelo.Insumo;
 import com.coronavirus.insumos.modelo.Usuario;
 
 @Path("insumos")
@@ -36,4 +40,18 @@ public interface InsumosApi {
 	@Path("/auth/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	Response login(LoginRequest request);
+
+	@POST
+	@Path("/ticket/nuevo")
+	@Produces(MediaType.APPLICATION_JSON)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	Response crearTicket(CrearTicketDTO ticketDTO);
+	
+
+	// cancelarTiket (ticket id)
+	
+	// rechazarTicket (Ticket id)
+	// AprobarTickjet (ticketid, proveedor).
+	// listaProveedores();
+
 }

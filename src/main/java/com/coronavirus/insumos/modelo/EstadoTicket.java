@@ -9,22 +9,33 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.coronavirus.insumos.utils.MiLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @JsonIgnoreProperties(value = {"new"})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+	@Type(value = Enviado.class, name= "Enviado"),
+	@Type(value = Cancelado.class, name= "Cancelado"),
+	@Type(value = Rechazado.class, name= "Rechazado"),
+	@Type(value = Aprobado.class, name= "Aprobado"),
+			
+})
 public abstract class EstadoTicket extends AbstractPersistable<Long>{
 
 	@Column
 	@JsonSerialize(using= MiLocalDateTimeSerializer.class)
-	public LocalDateTime fechaCreacion = LocalDateTime.now();
+	public LocalDateTime fecha = LocalDateTime.now();
 
-	public LocalDateTime getFechaCreacion() {
-		return fechaCreacion;
+	public LocalDateTime getFecha() {
+		return fecha;
 	}
 
-	public void setFechaCreacion(LocalDateTime fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setFecha(LocalDateTime fechaCreacion) {
+		this.fecha = fechaCreacion;
 	}
 	
 }
