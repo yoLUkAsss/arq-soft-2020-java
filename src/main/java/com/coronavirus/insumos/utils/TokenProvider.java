@@ -60,15 +60,12 @@ public class TokenProvider {
         //retorno del bearer.
         return builder.compact();
     }
-
-    public static Claims decodeJWT(String jwt) {
-
-        //This line will throw an exception if it is not a signed JWS (as expected)
-        Claims claims = Jwts.parser()
-                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-                .parseClaimsJws(jwt).getBody();
-        return claims;
-    }
+    
+	public static Claims decodeJWT(String jwt) {
+		String jwtToken =  jwt.replace("Bearer ", "");
+		return Jwts.parser().setSigningKey(SECRET_KEY.getBytes()).parseClaimsJws(jwtToken).getBody();
+	}
+	
 
 }
 

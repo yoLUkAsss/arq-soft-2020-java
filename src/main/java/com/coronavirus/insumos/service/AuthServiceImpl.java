@@ -3,6 +3,7 @@ package com.coronavirus.insumos.service;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import com.coronavirus.insumos.dto.LoginResponse;
 import com.coronavirus.insumos.modelo.Usuario;
 import com.coronavirus.insumos.repository.UsuarioRepository;
 import com.coronavirus.insumos.utils.TokenProvider;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
 
 
@@ -63,6 +67,11 @@ public class AuthServiceImpl implements AuthService{
 	public boolean credencialesValidas(String email, String password) {
 		Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.getByUserYPasw(email, password));
 		return (usuario.isPresent());
+	}
+	
+	public Claims decodificarToken(String jwt) {
+		Claims claims = tokenProvider.decodeJWT(jwt);
+		return claims;
 	}
 
 }
