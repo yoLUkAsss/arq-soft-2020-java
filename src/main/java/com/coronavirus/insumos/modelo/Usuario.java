@@ -2,6 +2,9 @@ package com.coronavirus.insumos.modelo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -31,6 +34,9 @@ public class Usuario extends AbstractPersistable<Long> {
 	
 	@Column
 	private String localidad;
+	
+	@Column
+	private String role;
 
 	public String getEmail() {
 		return email;
@@ -86,6 +92,14 @@ public class Usuario extends AbstractPersistable<Long> {
 
 	public void setLocalidad(String localidad) {
 		this.localidad = localidad;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	

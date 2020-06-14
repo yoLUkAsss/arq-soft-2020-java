@@ -44,8 +44,10 @@ public class AuthServiceImpl implements AuthService{
 	@Override
 	public LoginResponse login(LoginRequest request) throws Exception {
 		if (credencialesValidas(request.getUsuario(), request.getPassword())){
+			//Busco el usuario
+			Usuario usuario = usuarioByEmail(request.getUsuario()).get();
 			//BUSCAR EL ROL EN EL USUARIO. MODIFICAR.
-			String token = tokenProvider.generarJWT(request.getUsuario(),"ROLE_ADMIN");
+			String token = tokenProvider.generarJWT(usuario.getEmail(), usuario.getRole());
 			LoginResponse response = new LoginResponse();
 			response.setUsuario(request.getUsuario());
 			response.setToken(token);			

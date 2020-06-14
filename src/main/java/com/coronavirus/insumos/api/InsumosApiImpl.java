@@ -20,7 +20,7 @@ public class InsumosApiImpl implements InsumosApi {
 	
 	@Autowired
 	private AuthService authService;
-
+	
 	@Override
 	public Response isAlive() {
 		return Response.ok("its alive").build();
@@ -30,6 +30,7 @@ public class InsumosApiImpl implements InsumosApi {
 	public Response crearUsuario(Usuario usuario) {
 		ObjectNode objectNode = new ObjectMapper().createObjectNode();
 		try {
+			usuario.setRole("ROLE_USER");
 			authService.crearUsuario(usuario);
 			return Response.ok(usuario).build();
 		} catch (Exception e) {
