@@ -4,6 +4,7 @@ public class LoginResponse {
 
 	private String usuario;
 	private String token;
+	private String Role;
 	
 	public String getUsuario() {
 		return usuario;
@@ -16,6 +17,12 @@ public class LoginResponse {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public String getRole() {
+		return Role;
+	}
+	public void setRole(String role) {
+		Role = role;
 	}
 	
 	

@@ -46,11 +46,13 @@ public class AuthServiceImpl implements AuthService{
 		if (credencialesValidas(request.getUsuario(), request.getPassword())){
 			//Busco el usuario
 			Usuario usuario = usuarioByEmail(request.getUsuario()).get();
-			//BUSCAR EL ROL EN EL USUARIO. MODIFICAR.
-			String token = tokenProvider.generarJWT(usuario.getEmail(), usuario.getRole());
+			String role = usuario.getRole();
+			String token = tokenProvider.generarJWT(usuario.getEmail(), role);
+			
 			LoginResponse response = new LoginResponse();
 			response.setUsuario(request.getUsuario());
-			response.setToken(token);			
+			response.setToken(token);	
+			response.setRole(role);
 			return response;
 		}else {
 			throw new Exception("Usuario invalido");
