@@ -18,7 +18,7 @@ public class StartUp implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
-		// TODO AGREGAR ADMIN AUTOMATICAMENTE
+		// AGREGA ADMIN AUTOMATICAMENTE
 		Usuario admin = new Usuario();
 		admin.setEmail("admin@insumos.com.ar");
 		admin.setPassword("admin123");
