@@ -102,5 +102,7 @@ public class Usuario extends AbstractPersistable<Long> {
 		this.role = role;
 	}
 	
+	public Usuario(){};
+	
 	
 }

@@ -1,5 +1,7 @@
 package com.coronavirus.insumos.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,12 @@ public class TicketServiceImpl implements TicketService{
 		ticketRepository.save(ticket);
 		
 		return ticket;
+	}
+
+	@Override
+	public List<Ticket> obtenerTicketByUsuario(Usuario usuario) {
+		return ticketRepository.obtenerTicketByUsuario(usuario);
+		
 	}
 
 }

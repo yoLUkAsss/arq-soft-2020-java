@@ -34,6 +34,8 @@ public class Ticket extends AbstractPersistable<Long>{
 	@JoinColumn(name="estados")
 	Set<EstadoTicket> estados = new HashSet<EstadoTicket>();
 	
+	public Ticket(){};
+	
 	public Usuario getCliente() {
 		return cliente;
 	}

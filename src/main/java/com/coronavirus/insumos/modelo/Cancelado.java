@@ -8,5 +8,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = {"new" , "id"})
 public class Cancelado extends EstadoTicket{
 	
-	
+	public Cancelado(){};
 }

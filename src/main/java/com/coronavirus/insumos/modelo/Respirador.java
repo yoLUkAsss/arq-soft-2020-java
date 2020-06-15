@@ -8,4 +8,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = {"new", "id"})
 public class Respirador extends Insumo {
 
+	public Respirador(){};
 }

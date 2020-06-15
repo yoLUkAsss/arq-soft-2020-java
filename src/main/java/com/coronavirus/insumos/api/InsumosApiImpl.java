@@ -106,6 +106,17 @@ public class InsumosApiImpl implements InsumosApi {
 		return Response.status(200).entity(ticket).build();
 		
 	}
+
+	@Override
+	public Response misTickets() {
+		String token = request.getHeader("Authorization");
+		Claims claims = authService.decodificarToken(token);
+		String email = claims.getSubject();
+		Usuario usuario = usuarioService.obtenerUsuarioByEmail(email);
+		
+		List<Ticket> tickets = this.ticketService.obtenerTicketByUsuario(usuario);
+		return Response.status(200).entity(tickets).build();
+	}
 	
 	
 	

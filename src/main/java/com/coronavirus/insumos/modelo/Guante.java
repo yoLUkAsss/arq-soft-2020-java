@@ -8,4 +8,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = {"new", "id"})
 public class Guante extends Insumo {
 
+	public Guante(){};
 }
