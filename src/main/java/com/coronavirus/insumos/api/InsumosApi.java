@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.coronavirus.insumos.dto.CancelarTicketRequest;
 import com.coronavirus.insumos.dto.CrearTicketDTO;
 import com.coronavirus.insumos.dto.LoginRequest;
 import com.coronavirus.insumos.modelo.Usuario;
@@ -52,6 +53,13 @@ public interface InsumosApi {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	Response misTickets();
 
+	
+	@POST
+	@Path("/ticket/cancelarTicket")
+	@Produces(MediaType.APPLICATION_JSON)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	Response cancelarTicket(CancelarTicketRequest request);
+	
 	// cancelarTiket (ticket id)
 	
 	// rechazarTicket (Ticket id)

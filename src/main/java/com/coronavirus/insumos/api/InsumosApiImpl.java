@@ -9,9 +9,11 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.coronavirus.insumos.dto.CancelarTicketRequest;
 import com.coronavirus.insumos.dto.CrearTicketDTO;
 import com.coronavirus.insumos.dto.LoginRequest;
 import com.coronavirus.insumos.dto.LoginResponse;
+import com.coronavirus.insumos.modelo.Cancelado;
 import com.coronavirus.insumos.modelo.Enviado;
 import com.coronavirus.insumos.modelo.EstadoTicket;
 import com.coronavirus.insumos.modelo.Insumo;
@@ -47,7 +49,6 @@ public class InsumosApiImpl implements InsumosApi {
 	HttpServletRequest request;
 	
 
-	
 	@Override
 	public Response isAlive() {
 		return Response.ok("its alive").build();
@@ -116,6 +117,18 @@ public class InsumosApiImpl implements InsumosApi {
 		
 		List<Ticket> tickets = this.ticketService.obtenerTicketByUsuario(usuario);
 		return Response.status(200).entity(tickets).build();
+	}
+
+	@Override
+	public Response cancelarTicket(CancelarTicketRequest request) {
+		ObjectNode objectNode = new ObjectMapper().createObjectNode();
+		try {
+			ticketService.cancelarTicket(request.getIdTicket());
+			return Response.ok().build();
+		} catch (Exception e) {
+			objectNode.put("Error ", e.getMessage());
+			return Response.status(400).entity(objectNode.toString()).build();
+		}
 	}
 	
 	
