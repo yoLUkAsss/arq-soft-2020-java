@@ -94,10 +94,7 @@ public class InsumosApiImpl implements InsumosApi {
 
 	@Override
 	public Response crearTicket(CrearTicketDTO ticketDTO) {
-		String token = request.getHeader("Authorization");
-		Claims claims = authService.decodificarToken(token);
-		String email = claims.getSubject();
-		Usuario usuario = usuarioService.obtenerUsuarioByEmail(email);
+		Usuario usuario = this.obtenerUsuarioLoggeado();
 		Insumo insumo = ticketDTO.getInsumo();
 		
 		insumoRepository.save(insumo);
@@ -110,10 +107,7 @@ public class InsumosApiImpl implements InsumosApi {
 
 	@Override
 	public Response misTickets() {
-		String token = request.getHeader("Authorization");
-		Claims claims = authService.decodificarToken(token);
-		String email = claims.getSubject();
-		Usuario usuario = usuarioService.obtenerUsuarioByEmail(email);
+		Usuario usuario = this.obtenerUsuarioLoggeado();
 		
 		List<Ticket> tickets = this.ticketService.obtenerTicketByUsuario(usuario);
 		return Response.status(200).entity(tickets).build();
@@ -123,8 +117,9 @@ public class InsumosApiImpl implements InsumosApi {
 	public Response cancelarTicket(CancelarTicketRequest request) {
 		ObjectNode objectNode = new ObjectMapper().createObjectNode();
 		try {
-			ticketService.cancelarTicket(request.getIdTicket());
-			return Response.ok().build();
+			Usuario usuario = this.obtenerUsuarioLoggeado();
+			ticketService.cancelarTicket(request.getIdTicket(), usuario);
+			return Response.ok("Ticket cancelado exitosamente").build();
 		} catch (Exception e) {
 			objectNode.put("Error ", e.getMessage());
 			return Response.status(400).entity(objectNode.toString()).build();
@@ -132,6 +127,13 @@ public class InsumosApiImpl implements InsumosApi {
 	}
 	
 	
+	private Usuario obtenerUsuarioLoggeado() {
+		String token = request.getHeader("Authorization");
+		Claims claims = authService.decodificarToken(token);
+		String email = claims.getSubject();
+		Usuario usuario = usuarioService.obtenerUsuarioByEmail(email);
+		return usuario;
+	}
 	
 	
 	

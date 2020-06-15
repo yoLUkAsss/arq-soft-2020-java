@@ -3,6 +3,8 @@ package com.coronavirus.insumos.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class TicketServiceImpl implements TicketService{
 	
 	@Autowired
 	private EstadoTicketRepository estadoTicketRepository;
+	
+	@Autowired
+	HttpServletRequest request;
 	
 	@Override
 	public Ticket crearTicket(Usuario usuario, Insumo insumo) {
@@ -48,17 +53,22 @@ public class TicketServiceImpl implements TicketService{
 		return ticketRepository.findById(id);
 	}
 	
-	public void cancelarTicket(Long id) {
+	public void cancelarTicket(Long id, Usuario usuario) {
 		Optional<Ticket> OptTicket = this.getTicketById(id);
 		if (OptTicket.isPresent()) {
 			Ticket ticket = OptTicket.get();
-			EstadoTicket cancelado = new Cancelado();
-			estadoTicketRepository.save(cancelado);
-			ticket.setEstado(cancelado);
-			ticketRepository.save(ticket);
+			if (ticket.getCliente().equals(usuario)) {
+				EstadoTicket cancelado = new Cancelado();
+				estadoTicketRepository.save(cancelado);
+				ticket.setEstado(cancelado);
+				ticketRepository.save(ticket);
+			}else {
+				throw new TicketInvalidoException("El ticket no pertenece a este cliente");
+			}			
 		}else {
 			throw new TicketInvalidoException("El ticket es inexistente");	
 		}
 	}
+
 
 }

@@ -15,5 +15,5 @@ public interface TicketService {
 	
 	public Optional<Ticket> getTicketById(Long id);
 	
-	public void cancelarTicket(Long id);
+	public void cancelarTicket(Long id, Usuario usuario);
 }
