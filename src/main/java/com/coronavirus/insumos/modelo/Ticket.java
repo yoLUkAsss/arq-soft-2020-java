@@ -34,6 +34,10 @@ public class Ticket extends AbstractPersistable<Long>{
 	@JoinColumn(name="estados")
 	Set<EstadoTicket> estados = new HashSet<EstadoTicket>();
 	
+	@JoinColumn
+	@ManyToOne(fetch = FetchType.EAGER)
+	Area area;
+	
 	public Ticket(){};
 	
 	public Usuario getCliente() {
@@ -67,6 +71,14 @@ public class Ticket extends AbstractPersistable<Long>{
 	
 	public void setEstado(EstadoTicket estado) {
 		this.estados.add(estado);
+	}
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
 	}
 	
 }

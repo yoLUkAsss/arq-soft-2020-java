@@ -53,14 +53,16 @@ public interface InsumosApi {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	Response misTickets();
 
-	
 	@POST
 	@Path("/ticket/cancelarTicket")
 	@Produces(MediaType.APPLICATION_JSON)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	Response cancelarTicket(CancelarTicketRequest request);
-	
-	// cancelarTiket (ticket id)
+
+	@GET
+	@Path("/ticket/areas")
+	@Produces(MediaType.APPLICATION_JSON)
+	Response obtenerAreas();
 	
 	// rechazarTicket (Ticket id)
 	// AprobarTickjet (ticketid, proveedor).

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.coronavirus.insumos.exceptions.TicketInvalidoException;
+import com.coronavirus.insumos.modelo.Area;
 import com.coronavirus.insumos.modelo.Cancelado;
 import com.coronavirus.insumos.modelo.Enviado;
 import com.coronavirus.insumos.modelo.EstadoTicket;
@@ -31,11 +32,12 @@ public class TicketServiceImpl implements TicketService{
 	HttpServletRequest request;
 	
 	@Override
-	public Ticket crearTicket(Usuario usuario, Insumo insumo) {
+	public Ticket crearTicket(Usuario usuario, Insumo insumo, Area area) {
 		Ticket ticket = new Ticket(usuario, insumo);
 		EstadoTicket enviado = new Enviado();
 		this.estadoTicketRepository.save(enviado);
 		ticket.setEstado(enviado);
+		ticket.setArea(area);
 		
 		ticketRepository.save(ticket);
 		

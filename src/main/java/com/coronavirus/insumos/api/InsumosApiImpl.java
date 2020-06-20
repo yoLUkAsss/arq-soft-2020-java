@@ -13,14 +13,12 @@ import com.coronavirus.insumos.dto.CancelarTicketRequest;
 import com.coronavirus.insumos.dto.CrearTicketDTO;
 import com.coronavirus.insumos.dto.LoginRequest;
 import com.coronavirus.insumos.dto.LoginResponse;
-import com.coronavirus.insumos.modelo.Cancelado;
-import com.coronavirus.insumos.modelo.Enviado;
-import com.coronavirus.insumos.modelo.EstadoTicket;
+import com.coronavirus.insumos.modelo.Area;
 import com.coronavirus.insumos.modelo.Insumo;
 import com.coronavirus.insumos.modelo.Ticket;
 import com.coronavirus.insumos.modelo.Usuario;
-import com.coronavirus.insumos.repository.EstadoTicketRepository;
 import com.coronavirus.insumos.repository.InsumoRepository;
+import com.coronavirus.insumos.service.AreaService;
 import com.coronavirus.insumos.service.AuthService;
 import com.coronavirus.insumos.service.TicketService;
 import com.coronavirus.insumos.service.UsuarioService;
@@ -44,6 +42,9 @@ public class InsumosApiImpl implements InsumosApi {
 	
 	@Autowired
 	private TicketService ticketService;
+	
+	@Autowired
+	private AreaService areaService;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -94,14 +95,23 @@ public class InsumosApiImpl implements InsumosApi {
 
 	@Override
 	public Response crearTicket(CrearTicketDTO ticketDTO) {
-		Usuario usuario = this.obtenerUsuarioLoggeado();
-		Insumo insumo = ticketDTO.getInsumo();
-		
-		insumoRepository.save(insumo);
-		
-		Ticket ticket = ticketService.crearTicket(usuario, insumo);
+		ObjectNode objectNode = new ObjectMapper().createObjectNode();
+		try {
+			Usuario usuario = this.obtenerUsuarioLoggeado();
+			Insumo insumo = ticketDTO.getInsumo();
+			
+			insumoRepository.save(insumo);
+			Area area = areaService.getById(ticketDTO.getIdArea());
+			
+			Ticket ticket = ticketService.crearTicket(usuario, insumo, area);
 
-		return Response.status(200).entity(ticket).build();
+			return Response.status(200).entity(ticket).build();
+		}catch(Exception e) {
+			e.printStackTrace();
+			objectNode.put("Error", e.getMessage());
+			return Response.status(400).entity(objectNode.toString()).build();
+		}
+		
 		
 	}
 
@@ -133,6 +143,12 @@ public class InsumosApiImpl implements InsumosApi {
 		String email = claims.getSubject();
 		Usuario usuario = usuarioService.obtenerUsuarioByEmail(email);
 		return usuario;
+	}
+
+	@Override
+	public Response obtenerAreas() {
+		List<Area> areas = this.areaService.obtenerAreas();
+		return Response.status(200).entity(areas).build();
 	}
 	
 	
