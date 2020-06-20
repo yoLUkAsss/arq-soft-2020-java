@@ -55,7 +55,7 @@ public class TicketServiceImpl implements TicketService{
 		return ticketRepository.findById(id);
 	}
 	
-	public void cancelarTicket(Long id, Usuario usuario) {
+	public Ticket cancelarTicket(Long id, Usuario usuario) {
 		Optional<Ticket> OptTicket = this.getTicketById(id);
 		if (OptTicket.isPresent()) {
 			Ticket ticket = OptTicket.get();
@@ -64,6 +64,7 @@ public class TicketServiceImpl implements TicketService{
 				estadoTicketRepository.save(cancelado);
 				ticket.setEstado(cancelado);
 				ticketRepository.save(ticket);
+				return ticket;
 			}else {
 				throw new TicketInvalidoException("El ticket no pertenece a este cliente");
 			}			

@@ -55,8 +55,8 @@ public interface InsumosApi {
 
 	@POST
 	@Path("/ticket/cancelarTicket")
-	@Produces(MediaType.APPLICATION_JSON)
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@Produces(MediaType.APPLICATION_JSON)
 	Response cancelarTicket(CancelarTicketRequest request);
 
 	@GET

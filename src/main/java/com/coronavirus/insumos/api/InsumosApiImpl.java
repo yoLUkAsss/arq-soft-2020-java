@@ -128,8 +128,8 @@ public class InsumosApiImpl implements InsumosApi {
 		ObjectNode objectNode = new ObjectMapper().createObjectNode();
 		try {
 			Usuario usuario = this.obtenerUsuarioLoggeado();
-			ticketService.cancelarTicket(request.getIdTicket(), usuario);
-			return Response.ok("Ticket cancelado exitosamente").build();
+			Ticket ticket = ticketService.cancelarTicket(request.getIdTicket(), usuario);
+			return Response.ok(ticket).build();
 		} catch (Exception e) {
 			objectNode.put("Error ", e.getMessage());
 			return Response.status(400).entity(objectNode.toString()).build();
