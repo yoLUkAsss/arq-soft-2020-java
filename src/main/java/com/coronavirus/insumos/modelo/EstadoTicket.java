@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 	@Type(value = Aprobado.class, name= "Aprobado"),
 			
 })
-public abstract class EstadoTicket extends AbstractPersistable<Long>{
+public abstract class EstadoTicket extends AbstractPersistable<Long> implements Comparable<EstadoTicket>{
 
 	@Column
 	@JsonSerialize(using= MiLocalDateTimeSerializer.class)
@@ -37,5 +37,16 @@ public abstract class EstadoTicket extends AbstractPersistable<Long>{
 	public void setFecha(LocalDateTime fechaCreacion) {
 		this.fecha = fechaCreacion;
 	}
+	
+	 @Override
+     public int compareTo(EstadoTicket e) {
+         if (fecha.isBefore(e.fecha)) {
+             return -1;
+         }
+         if (fecha.isAfter(e.fecha)) {
+             return 1;
+         }
+         return 0;
+     }
 	
 }

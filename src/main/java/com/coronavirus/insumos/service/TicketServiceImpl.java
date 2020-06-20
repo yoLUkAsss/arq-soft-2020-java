@@ -1,5 +1,6 @@
 package com.coronavirus.insumos.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,11 @@ public class TicketServiceImpl implements TicketService{
 
 	@Override
 	public List<Ticket> obtenerTicketByUsuario(Usuario usuario) {
-		return ticketRepository.obtenerTicketByUsuario(usuario);
+		List<Ticket> tickets = ticketRepository.obtenerTicketByUsuario(usuario);
+		for (Ticket ticket : tickets) {
+			Collections.reverse(ticket.getEstados());
+		}
+		return tickets ;
 		
 	}
 

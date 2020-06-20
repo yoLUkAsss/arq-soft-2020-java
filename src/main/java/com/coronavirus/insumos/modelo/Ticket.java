@@ -1,7 +1,9 @@
 package com.coronavirus.insumos.modelo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -32,7 +34,7 @@ public class Ticket extends AbstractPersistable<Long>{
 
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="estados")
-	Set<EstadoTicket> estados = new HashSet<EstadoTicket>();
+	List<EstadoTicket> estados = new ArrayList<EstadoTicket>();
 	
 	@JoinColumn
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -60,15 +62,15 @@ public class Ticket extends AbstractPersistable<Long>{
 		this.cliente = cliente;
 		this.insumo = insumo;
 	}
-
-	public Set<EstadoTicket> getEstados() {
+	
+	public List<EstadoTicket> getEstados() {
 		return estados;
 	}
 
-	public void setEstados(Set<EstadoTicket> estados) {
+	public void setEstados(List<EstadoTicket> estados) {
 		this.estados = estados;
 	}
-	
+
 	public void setEstado(EstadoTicket estado) {
 		this.estados.add(estado);
 	}
